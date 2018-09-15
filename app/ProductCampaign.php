@@ -36,7 +36,7 @@ class ProductCampaign extends Model
 			->orderDetails()
 			->join('order', 'order_detail.order_id', 'order.id')
 			->join('order_status', 'order.id', 'order_status.order_id')
-			->where('order_status.value', 4)
+			->where('order_status.value', 1)
 			->sum('product_quantity') * 25000;
 	}
 	
@@ -93,7 +93,7 @@ class ProductCampaign extends Model
 			->orderDetails()
 			->join('order', 'order_detail.order_id', 'order.id')
 			->join('order_status', 'order.id', 'order_status.order_id')
-			->where('order_status.value', 4)
+			->where('order_status.value', 1)
 			->sum('product_quantity');
 	}
 	
@@ -102,7 +102,7 @@ class ProductCampaign extends Model
 			->orderDetails()
 			->join('order', 'order_detail.order_id', 'order.id')
 			->join('order_status', 'order.id', 'order_status.order_id')
-			->where('order_status.value', 4)
+			->where('order_status.value', 1)
 			->where('order_detail.seller_id', $sellerId)
 			->sum('product_quantity');
 	}
@@ -112,7 +112,7 @@ class ProductCampaign extends Model
 			->orderDetails()
 			->join('order', 'order_detail.order_id', 'order.id')
 			->join('order_status', 'order.id', 'order_status.order_id')
-			->where('order_status.value', 4)
+			->where('order_status.value', 1)
 			->where('order_detail.seller_id', $sellerId)
 			->whereDate('order_detail.created_at', $date)
 			->sum('product_quantity');
@@ -123,7 +123,7 @@ class ProductCampaign extends Model
 			->orderDetails()
 			->join('order', 'order_detail.order_id', 'order.id')
 			->join('order_status', 'order.id', 'order_status.order_id')
-			->where('order_status.value', 4)
+			->where('order_status.value', 1)
 			->where('order_detail.seller_id', $sellerId)
 			->whereDate('order_detail.created_at', '>=', $date)
 			->sum('product_quantity');
