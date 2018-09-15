@@ -3,10 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\OrderStatus;
 
 class Order extends Model
 {
-    //
 	protected $table = 'order';
 	
 	protected $fillable = [
@@ -21,6 +21,8 @@ class Order extends Model
 		'cus_note',
 		'cus_address'
 	];
+
+    protected $appends = ['total'];
 	
 	public function details(){
 		return $this->hasMany('App\OrderDetail');
@@ -57,4 +59,44 @@ class Order extends Model
 			default : return "Chưa Thanh Toán";
 		}
 	}
+
+	public function switchStatus($status){
+	    $currentStatusCode = $this->currentStatusCode();
+
+	    if ($status < $currentStatusCode){
+	        return;
+        }
+
+        if ($status === $currentStatusCode + 1){
+            OrderStatus::create([
+                'order_id' => $this->id,
+                'value' => $status
+            ]);
+        }
+
+        return;
+    }
+
+    public function total(){
+	    return $this->getTotalAttribute();
+    }
+
+    public function getTotalAttribute(){
+        $total = 0;
+
+        foreach( $this->details()->get() as $item ){
+            $campaign = \App\ProductCampaign::find($item->campaign_id);
+
+            if($campaign){
+                $total += $campaign->price * $item->product_quantity;
+            }else{
+                $product = \App\Product::find($item->product_id);
+
+                if($product){
+                    $total += $product->price * $item->product_quantity;
+                }
+            }
+        }
+        return $total;
+    }
 }

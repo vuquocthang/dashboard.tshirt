@@ -12,14 +12,30 @@ use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
 {
-    //
 	public function index(Request $req){
+
+	    $name = $req->get('name');
+	    $profitOrder = $req->get('profit_order');
+
+
 		$products = $req->user()
-					->products()
-					->orderBy('id', 'DESC')
-					->paginate(20);
-		
-		return view('user.product.index', [
+					->products();
+					//->orderBy('id', 'DESC')
+					//->paginate(20);
+
+		if (!empty($name)){
+		    $products = $products->where('name', 'LIKE', '%' . $name . '%');
+        }
+
+        if (!empty($profitOrder)){
+            //$products = $products->where('name', 'LIKE', '%' . $name . '%');
+        }
+
+        $products = $products
+                        ->orderBy('id', 'DESC')
+                        ->paginate(10);
+
+		return view('user.product.index2', [
 			'products' => $products
 		]);
 	}
