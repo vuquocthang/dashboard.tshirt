@@ -18,6 +18,11 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
+
+            if( $request->get('action') === 'kiem-tien' ){
+                return redirect('/?action=kiem-tien');
+            }
+
             return redirect('/');
         }
 
