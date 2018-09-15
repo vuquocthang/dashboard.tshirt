@@ -12,6 +12,7 @@ class Product extends Model
 	protected $fillable = [
 		'price',
 		'name',
+		'slug',
 		'description',
 		'design_id',
 		'base64_front',
@@ -61,4 +62,16 @@ class Product extends Model
 		
 		return "";
 	}
+	
+	public function frontendUrl(){
+		return config('services.front_url') . '/p/' . $this->slug;
+	}
+
+    public function bgImgFront(){
+        return config("services.design_url") . "/uploads/product/unisex-cotton-tee-front.png";
+    }
+
+    public function bgImgBack(){
+        return config("services.design_url") . "/uploads/product/unisex-cotton-tee-back.png";
+    }
 }

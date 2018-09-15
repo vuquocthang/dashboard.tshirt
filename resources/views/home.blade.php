@@ -25,3 +25,17 @@
 	@endif
 
 @endsection
+
+@section('js')
+
+<script>
+
+	let action = "{{ Request::query('action') }}"
+
+	if(action === 'kiem-tien'){
+	    window.location.href = "{{ config('services.design_url') }}"
+	}
+
+</script>
+
+@endsection

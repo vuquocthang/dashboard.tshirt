@@ -65,7 +65,7 @@
                                         @foreach($campaigns as $index => $campaign)
                                         <tr>
                                             <td class="text-truncate">{{ $index + 1 }}</td>
-                                            <td>{{ $campaign->product()->first()->name }}</td>
+                                            <td ><a href="{{ $campaign->product()->first()->frontendUrl() }}">{{ $campaign->product()->first()->name }}</a></td>
 
                                             <td>{{ Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $campaign->start_at)->format("d/m/Y") }}</td>
 

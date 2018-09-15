@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Input;
 
 class LoginController extends Controller
 {
@@ -40,27 +42,34 @@ class LoginController extends Controller
     }
 	
 	public function showLoginForm(){
-		return view('login');
+		return view('login2');
 	}
 	
 	public function myLogin(Request $request)
     {
-        $this->validate($request, [
-            'email' => 'required|email', 'password' => 'required',
+        $action = $request->action;
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
+
+        if ($validator->fails()) {
+            return redirect('login?action=' . $action)
+                ->withErrors($validator)
+                ->withInput();
+        }
 
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            // Authentication passed...
-			
-			if( isset($_GET["action"]) ){
-				return redirect('?action=' . $_GET["action"]);
+			if( $action === 'kiem-tien' ){
+				return redirect('/?action=' . $action);
 			}
 			
 			return redirect('/');
+        }else{
+            return redirect()->back();
         }
-		
-		
     }
 }

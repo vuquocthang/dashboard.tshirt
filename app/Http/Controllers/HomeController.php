@@ -21,14 +21,10 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $req)
+    public function index()
     {
-		if( $req->get('action') === 'kiem-tien'){
-			$url = config('services.design_url') . '/design-success';
-			
-			return redirect( $url );
-		}
-		
         return view('home');
     }
+
+
 }

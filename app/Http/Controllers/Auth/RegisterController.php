@@ -40,6 +40,10 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function showRegistrationForm(){
+        return view('register');
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -51,7 +55,14 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:8|confirmed',
+        ],[
+            'name.required' => 'Họ tên không được để trống !',
+            'email.required' => 'Email không được để trống !',
+            'password.required' => 'Mật khẩu không được để trống !',
+            'email.unique' => 'Email đã được đăng ký !',
+            'password.min' => 'Mật khẩu phải từ 8 ký tự !',
+            'password.confirmed' => 'Mật khẩu không khớp !',
         ]);
     }
 
@@ -67,6 +78,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'role' => 'User'
         ]);
     }
 }

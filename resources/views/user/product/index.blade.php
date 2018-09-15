@@ -8,6 +8,26 @@
 		padding: 0.5rem !important;
 	}
 </style>
+
+<style>
+    .design-img{
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        text-align: center;
+    }
+
+    .design-img img{
+        user-select: none;
+        width: 42.1687%;
+        height: auto;
+        margin: auto;
+        margin-top: calc(20.2703% + 15px) !important;
+    }
+</style>
+
 <link rel="stylesheet" type="text/css" href="{{ asset('assets') }}/app-assets/css/core/colors/palette-callout.css"> 
 @endsection
 
@@ -71,7 +91,22 @@
                                         @foreach($products as $index => $product)
                                         <tr>
                                             <td class="text-truncate">{{ $index + 1 }}</td>
-                                            <td><a href="#">{{ $product->name }}</a></td>
+                                            <td>
+                                                <a target="_blank" href="{{ $product->frontendUrl() }}">{{ $product->name }}</a>
+                                                <br>
+                                                <br>
+
+
+                                                <div style="position: relative;" >
+                                                    <a href="">
+                                                        <img class="bgImg" style="background-color: #{{ $product->color_code }}" width="100" src="{{ $product->bgImgFront() }}"/>
+                                                    </a>
+
+                                                    <div class="design-img" >
+                                                        <img src="{{ config('services.design_url') }}/design/{{ $product->img_front }}" alt="" class="modelImage">
+                                                    </div>
+                                                </div>
+                                            </td>
 
 											<td>
 												@if( !$product->hasCampaign() )
